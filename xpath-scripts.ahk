@@ -1,4 +1,7 @@
 #SingleInstance force
+
+^q::ReloadScript()
+
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 ;~ SQL F5 poga
 	#IfWinActive, ahk_exe Ssms.exe
@@ -112,6 +115,16 @@ Return
 	send, {enter}
 return
 
+;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+;Iemet, iepriekš nokopetu linku iekš FireFox loga:
+^+w::
+	WinActivate, ahk_class IEFrame
+	MouseClick left , 2090, 130, 1, 0
+	Send, {CTRLDOWN}{a}{CTRLUP}
+	CtrlV()
+	send, {enter}
+return
+
 ;izveleejaas no SITE otro poziciju nospiezot peles rulli
 #IfWinActive, ChooseSite
 MButton::
@@ -168,6 +181,11 @@ shodienasdatums() {
 	global
 	FormatTime, Datums,, dd.MM.yyyy
 }
-
+;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+ReloadScript() {
+	Run %A_AhkPath% "%A_ScriptFullPath%"
+	ExitApp
+}
+;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 ; ar CTRL + SPACE izveletajam logam liek palikt "on TOP"
 ^SPACE::  Winset, Alwaysontop, , A
