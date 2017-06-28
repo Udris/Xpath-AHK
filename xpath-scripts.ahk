@@ -112,6 +112,48 @@ Return
 	send, {enter}
 return
 
+;izveleejaas no SITE otro poziciju nospiezot peles rulli
+#IfWinActive, ChooseSite
+MButton::
+	;~ MsgBox, 48, ir, tttt
+	Click, 222, 273
+	Sleep, 100
+	Click, 530, 780
+return
+#IfWinActive
+
+;konkretais ir mainaams lai atbilstu situacijai: liek testeties uz DB noradot parametrus.
+#IfWinActive, AddDataRefreshRequest
+x::
+	;~ MsgBox, 48, ir, wou
+	Send, 01
+
+	loop 8 {
+	Click, 432, 168
+	}
+
+	Click, 299, 229
+	send, DEFAULT-FAST
+
+	;~ Liek datumu uz 01.07.2016
+	send, {tab}
+	send, 01
+	send, {Right}
+	send, 07
+
+	;Nospiez OK
+	Click, 715, 350
+return
+#IfWinActive
+
+#IfWinActive, Schedule?
+x::
+	;~ MsgBox, 48, ir, wou
+	send, {enter}
+return
+#IfWinActive
+
+
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 CtrlC() {
 	Send, {CTRLDOWN}{c}{CTRLUP}
@@ -126,3 +168,6 @@ shodienasdatums() {
 	global
 	FormatTime, Datums,, dd.MM.yyyy
 }
+
+; ar CTRL + SPACE izveletajam logam liek palikt "on TOP"
+^SPACE::  Winset, Alwaysontop, , A
