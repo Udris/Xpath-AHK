@@ -119,7 +119,7 @@ return
 ;Iemet, iepriekš nokopetu linku iekš FireFox loga:
 ^+w::
 	WinActivate, ahk_class IEFrame
-	MouseClick left , 2090, 130, 1, 0
+	MouseClick left , 1524, 180, 1, 0
 	Send, {CTRLDOWN}{a}{CTRLUP}
 	CtrlV()
 	send, {enter}
