@@ -81,6 +81,18 @@
 	CtrlV()
 Return
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+
+;Paraksts ieks AF  - ieraksta Parser angepast datums un paraksts
+::a/::
+	Send, -ADV
+Return
+;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+;Paraksts ieks AF  - ieraksta Parser angepast datums un paraksts
+::s/::
+	Send, DEFAULT
+Return
+;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+
 ;parakstaas jaunaa parseri - Datums un paraksts
 ::j/::
 	shodienasdatums()
@@ -119,7 +131,7 @@ return
 ;Iemet, iepriekš nokopetu linku iekš FireFox loga:
 ^+w::
 	WinActivate, ahk_class IEFrame
-	MouseClick left , 1524, 180, 1, 0
+	MouseClick left , 859, 85, 1, 0
 	Send, {CTRLDOWN}{a}{CTRLUP}
 	CtrlV()
 	send, {enter}
@@ -141,12 +153,12 @@ x::
 	;~ MsgBox, 48, ir, wou
 	Send, 01
 
-	loop 8 {
+	loop 6 {
 	Click, 432, 168
 	}
 
 	Click, 299, 229
-	send, DEFAULT-FAST
+	send, RSS-ADV
 
 	;~ Liek datumu uz 01.07.2016
 	send, {tab}
