@@ -1,5 +1,9 @@
 #SingleInstance force
 
+	removetooltip:
+	settimer, removetooltip, off
+	ToolTip
+
 ^q::ReloadScript()
 
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
@@ -53,6 +57,10 @@
 	send, following::
 	return
 
+	::a*::
+	send, ancestor::
+	return
+
 ;Regex delete
 	::de/::
 	send,(?<delete_0>)
@@ -72,9 +80,62 @@
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 ^w::
 rss = %Clipboard%
-RegexMatch(RSS,"(RSS)\ (.*)",rss_adv) ;  atpazist tikai parastos auto numurus aa-bb 1234
-Send, %rss_adv1%-ADV %rss_adv2%
+
+RegexMatch(RSS,"(RSS)\ (.*)",rss_adv) ;
+Clipboard = %rss_adv1%-ADV %rss_adv2%
+CtrlV()
+	tooltip, Klipboards: %Clipboard%, 0,0
+	settimer, removetooltip, 5000
 return
+
+
+;*******************************************
+#IfWinActive, ahk_exe Ssms.exe
+^u::
+rss = %Clipboard%
+Sleep, 100
+RegexMatch(RSS,"(RSS)\ (.*)",rss_adv) ;
+vajag = %rss_adv1%-ADV %rss_adv2%
+Clipboard = update source set SourceTitle='%rss_adv1%-ADV %rss_adv2%' where SourceTitle='%RSS%';
+CtrlV()
+Send,{down}
+Send,{ShiftDown}{UP}{ShiftUp}
+Send,{f5}
+Sleep, 150
+send, {left}{down}
+
+Clipboard = %vajag%
+	tooltip, Klipboards: %vajag%, 0,0
+	settimer, removetooltip, 5000
+
+return
+#IfWinActive
+
+;*******************************************
+
+
+;~ top autoregex writer
+#IfWinActive, RegexTest
+^t::
+
+WinActivate
+DetectHiddenText, on
+MouseClick left , 1300, 430, 1, 0
+SetTitleMatchMode Slow
+WinGetText iegust_datumu
+RegexMatch(iegust_datumu,"\d{1,2}. \w+ \d{4}",musturs)
+;~ RegexMatch(iegust_autonr,"([A-Za-zÜüÖöÄä]{1,3}[-]{1}[A-Za-zÜüÖöÄä]{1,3} \d{1,4}|[A-Za-zÜüÖöÄä]{2,3}[-]{1}\d{5})",autonr) ;atpazist ari bb-12345
+Clipboard = %musturs%
+
+msgBox, %musturs%
+
+;~ rss = %Clipboard%
+
+;~ RegexMatch(RSS,"(RSS)\ (.*)",rss_adv) ;  atpazist tikai parastos auto numurus aa-bb 1234
+;~ Clipboard = %rss_adv1%-ADV %rss_adv2%
+;~ CtrlV()
+return
+#IfWinActive
 
 
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
@@ -132,6 +193,17 @@ Return
 	send, {enter}
 return
 
+^+q::
+	WinActivate, B.I.G. Screen Analyst Frontend - [Parser]
+	MouseClick left , 380, 143, 1, 0
+	CtrlA()
+	Sleep, 500
+	CtrlV()
+	MouseClick left , 540, 143, 1, 0
+	;~ send, {enter}
+
+return
+
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 ;Iemet, iepriekš nokopetu linku iekš FireFox loga:
 ^+w::
@@ -146,9 +218,12 @@ return
 #IfWinActive, ChooseSite
 MButton::
 	;~ MsgBox, 48, ir, tttt
+loop 560 {
 	Click, 222, 273
-	Sleep, 100
+	Sleep, 500
 	Click, 530, 780
+	Sleep 1000
+}
 return
 #IfWinActive
 
@@ -191,6 +266,10 @@ CtrlC() {
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 CtrlV() {
 	Send, {CTRLDOWN}{v}{CTRLUP}
+}
+;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+CtrlA() {
+	Send, {CTRLDOWN}{a}{CTRLUP}
 }
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 ;shodienas datuma formaats.S
