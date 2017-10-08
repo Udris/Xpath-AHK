@@ -1,5 +1,12 @@
 #SingleInstance force
 
+;====================================================================
+	SplashImage, C:\Users\Udris\Pictures\es.jpg, b
+	Sleep, 500
+	SplashImage, Off
+;====================================================================
+
+
 	removetooltip:
 	settimer, removetooltip, off
 	ToolTip
@@ -111,6 +118,33 @@ Clipboard = %vajag%
 return
 #IfWinActive
 
+
+;*******************************************
+#IfWinActive, ahk_exe Ssms.exe
+^e::
+CtrlX()
+send, {up 2}
+rss = %Clipboard%
+Sleep, 100
+RegexMatch(RSS,"(RSS)\ (.*)",rss_adv) ;
+vajag = %rss_adv1%-ADV %rss_adv2%
+Clipboard = update source set SourceTitle='%rss_adv1%-ADV %rss_adv2%' where SourceTitle='%RSS%';
+CtrlV()
+Send,{down}
+Send,{ShiftDown}{UP}{ShiftUp}
+Send,{f5}
+Sleep, 150
+send, {left}{down}
+
+Clipboard = %vajag%
+	tooltip, Klipboards: %vajag%, 0,0
+	settimer, removetooltip, 5000
+send, {down 2}
+return
+#IfWinActive
+
+;*******************************************
+
 ;*******************************************
 
 
@@ -182,7 +216,14 @@ Return
 	send, [contains(@id,"%text%")]
 	return
 #IfWinActive
-
+;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+;Raksta XPATH formulu - [contains(@id,"%text%")]
+#IfWinActive, XPath-Tester
+	^XButton1::
+	text = %Clipboard%
+	send, [contains(@itemprop,"%text%")]
+	return
+#IfWinActive
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 ;Iemet, iepriekš nokopetu linku iekš FireFox loga:
 ^!x::
@@ -218,12 +259,13 @@ return
 #IfWinActive, ChooseSite
 MButton::
 	;~ MsgBox, 48, ir, tttt
-loop 560 {
+;~ loop 560 {
 	Click, 222, 273
 	Sleep, 500
+	send, {down}
 	Click, 530, 780
 	Sleep 1000
-}
+;~ }
 return
 #IfWinActive
 
@@ -232,19 +274,26 @@ return
 x::
 	;~ MsgBox, 48, ir, wou
 	Send, 01
-
+	sleep 100
 	loop 6 {
 	Click, 432, 168
 	}
-
+sleep 100
 	Click, 299, 229
-	send, RSS-ADV
-
+	send, DEFAULT
+sleep 100
 	;~ Liek datumu uz 01.07.2016
 	send, {tab}
+	sleep 100
 	send, 01
+	sleep 100
 	send, {Right}
+	sleep 100
 	send, 07
+	sleep 100
+	send, {Right}
+	sleep 100
+	send, 2016
 
 	;Nospiez OK
 	Click, 715, 350
@@ -272,6 +321,11 @@ CtrlA() {
 	Send, {CTRLDOWN}{a}{CTRLUP}
 }
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+
+CtrlX() {
+	Send, {CTRLDOWN}{x}{CTRLUP}
+}
+;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 ;shodienas datuma formaats.S
 shodienasdatums() {
 	global
@@ -285,3 +339,8 @@ ReloadScript() {
 ;°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 ; ar CTRL + SPACE izveletajam logam liek palikt "on TOP"
 ^SPACE::  Winset, Alwaysontop, , A
+
+::feed/::
+(
+according to USPS tracking information, your item has been shipped to you. If you have any concerns, please contact me before leaving feedback and I will do my best to resolve any issues. If you are satisfied, please leave me a good feedback. It would be very much appreciated. Thank you very much for your business.
+)
