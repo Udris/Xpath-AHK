@@ -1,0 +1,52 @@
+declare @SourceURL char(200);
+declare @protocolremoved char(200)
+declare @wwwremoved char(200)
+declare @domeens char(150)
+declare @ISOCountry char(2);
+declare @parsertype char(12)
+declare @parsertypeFK varchar(200)
+declare @charsets char(25)
+declare @sourcetitleprefix char(7)
+declare @sourceauthortype char(12)
+declare @sourceauthortypeFK char(1)
+declare @sourceformattype char(24)
+declare @sourceformattypeFK char(2)
+set @ISOCountry= 'VALSTS'; --INSERT CHARSET HERE!
+set @SourceURL='URLURLURL' --INSERT SourceURL HERE!
+set @parsertype='ZZZZZZZZZ' -- INSERT Parser typ here!
+set @charsets='UTF-8' -- INSERT Charset here!
+set @sourceauthortype ='MMMMMM' -- INSERT author typ here!
+set @sourceformattype ='BBBBBB' -- INSERT format typ here!
+set @parsertypeFK = CASE -- transforming strings to Parser_FK id's
+ WHEN @parsertype='RSS Advanced' THEN 'EDBE2F8A-F7F1-4A4A-9021-898FE232FC33'
+ WHEN @parsertype='Standard' THEN '6032EE6D-4D5B-4BAE-B3B5-62FCF483877C'
+ WHEN @parsertype like 'RSS Bas%' THEN '125ED88E-2945-4260-8B8C-5EA8AE4E1648'
+END;
+set @sourcetitleprefix = CASE -- transforming strings to neater strings for SourceTitle
+ WHEN @parsertypeFK='6032EE6D-4D5B-4BAE-B3B5-62FCF483877C' THEN 'DEFAULT'
+ WHEN @parsertypeFK='EDBE2F8A-F7F1-4A4A-9021-898FE232FC33' THEN 'RSS-ADV'
+ WHEN @parsertypeFK='125ED88E-2945-4260-8B8C-5EA8AE4E1648' THEN 'RSS'
+END;
+set @sourceauthortypeFK = (select ID from SourceAuthorType where ShortDescription=TRIM(@sourceauthortype)); -- tranforming authortype into ID
+set @sourceformattypeFK = (select ID from SourceFormatType where ShortDescription=TRIM(@sourceformattype)); -- tranforming formattype into ID
+set @protocolremoved=
+ CASE 
+  WHEN @SourceURL like 'https://%' THEN COALESCE(TRIM(replace(@SourceURL,'https://','')),@SourceURL)
+  WHEN @SourceURL like 'http://%' THEN COALESCE(TRIM(replace(@SourceURL,'http://','')),@SourceURL)
+  ELSE @SourceURL
+ END;
+set @wwwremoved=
+ CASE 
+  WHEN @protocolremoved like 'www.%' THEN COALESCE(TRIM(replace(@protocolremoved,'www.','')),@protocolremoved)
+  ELSE @protocolremoved
+ END;
+set @domeens=TRIM(LEFT(@wwwremoved,CHARINDEX('/',@wwwremoved)-1))
+insert into Site
+( id , SiteTitle, BaseURL, ShortDescription, ISOCountry_FK, InsertTimestamp, UpdateTimestamp, HistoricalLimit, ContentHashRelevantFields)
+values
+( NEWID(), TRIM(@domeens), concat('https://',TRIM(@domeens)), '', TRIM(@ISOCountry),  GETDATE(), GETDATE(), NULL, NULL );
+insert into Source
+( id , SourceTitle, Site_FK, URL, SourceParser_FK, SourceAuthorTypeID_FK, SourceFormatTypeID_FK, InsertTimestamp, UpdateTimestamp, Parser_FK, Charset)
+values
+( NEWID(), concat(TRIM(@sourcetitleprefix),' ',TRIM(@domeens)), (select top 1 id from site where SiteTitle=@domeens), TRIM(@SourceURL), NULL, @sourceauthortypeFK, @sourceformattypeFK, GETDATE(), GETDATE(), @parsertypeFK, TRIM(@charsets))
+;
