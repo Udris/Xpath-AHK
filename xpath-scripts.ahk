@@ -311,8 +311,15 @@ x::
 return
 #IfWinActive
 
+#IfWinActive, RegexTest
+	^w::
+		send, \w{+}
+return
 
-
+#IfWinActive, RegexTest
+	^d::
+		send, \d{+}
+return
 
 
 

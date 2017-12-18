@@ -311,8 +311,15 @@ x::
 return
 #IfWinActive
 
+#IfWinActive, RegexTest
+	^w::
+		send, \w{+}
+return
 
-
+#IfWinActive, RegexTest
+	^d::
+		send, \d{+}
+return
 
 
 
@@ -352,8 +359,6 @@ ReloadScript() {
 (
 according to USPS tracking information, your item has been shipped to you. If you have any concerns, please contact me before leaving feedback and I will do my best to resolve any issues. If you are satisfied, please leave me a good feedback. It would be very much appreciated. Thank you very much for your business.
 )
-
-
 
 ::me/::
 send, ./preceding::meta[contains(@property,"article:published_time")]/@content
@@ -401,7 +406,7 @@ FileRead, rawhtml, rab.txt
 	needle3 := "MMMMMM"
 	needle4 := "BBBBBB"
 	needle5 := "VALSTS"
-	
+
     replacement = %dala1%
 	replacement2 = %dala2%
 	replacement3 = %dala3%
@@ -411,15 +416,13 @@ FileRead, rawhtml, rab.txt
 	Sleep, 500
 	result := RegExReplace(result, needle2, replacement2) ; Standart vai RSS
 	Sleep, 500
-	result := RegExReplace(result, needle3, replacement3) ; 
+	result := RegExReplace(result, needle3, replacement3) ;
 	Sleep, 500
-	result := RegExReplace(result, needle4, replacement4) ; 
+	result := RegExReplace(result, needle4, replacement4) ;
 	Sleep, 500
-	result := RegExReplace(result, needle5, replacement5) ; 
+	result := RegExReplace(result, needle5, replacement5) ;
     Clipboard =
     Clipboard := result
 ;Wait for the Clipboard to fill.
     ClipWait
 return
-
- 
